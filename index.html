@@ -1,664 +1,118 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta property="og:title" content="اكتشف غرانيج - تحدي المعرفة والأرباح" />
-    <meta property="og:description" content="اختبر معلوماتك عن عروس الفرات غرانيج عبر 7 مراحل وضاعف رصيدك!" />
-        <meta property="og:image" content=".jbg" />
-    <title>اكتشف غرانيج</title>
-    <script src="https://telegram.org"></script>
-    <style>
-        :root {
-            --gold: #d4af37;
-            --gold-light: #f3e5ab;
-            --dark-bg: #0b1120;
-            --card-bg: rgba(15, 23, 42, 0.92);
-            --success: #16a34a;
-            --danger: #dc2626;
-        }
-        * {
-            box-sizing: border-box;
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Tahoma, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-        body {
-            margin: 0;
-            padding: 0;
-            color: #ffffff;
-            background-color: var(--dark-bg);
-            background-image: url('.jbg'), linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            transition: background-image 0.7s ease-in-out;
-            min-height: 100vh;
-        }
-        .overlay {
-            background: rgba(5, 10, 20, 0.75);
-            min-height: 100vh;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-        }
-        .container {
-            max-width: 560px;
-            width: 100%;
-            background: var(--card-bg);
-            border: 2px solid var(--gold);
-            border-radius: 18px;
-            padding: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.85);
-            text-align: center;
-        }
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.08);
-            padding: 10px 14px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            font-size: 0.92rem;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .hero-box {
-            position: relative;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border-radius: 14px;
-            border: 2px solid var(--gold);
-            overflow: hidden;
-            min-height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .hero-img {
-            width: 100%;
-            height: 240px;
-            object-fit: cover;
-            object-position: center top;
-            display: block;
-        }
-        .hero-fallback {
-            padding: 30px 15px;
-            color: var(--gold);
-            font-size: 1.3rem;
-            font-weight: bold;
-        }
-        .hero-badge {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.8);
-            color: var(--gold);
-            padding: 5px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            border: 1px solid var(--gold);
-        }
-        h1 {
-            color: var(--gold);
-            margin: 5px 0 8px;
-            font-size: 1.85rem;
-        }
-        .subtitle {
-            color: #cbd5e1;
-            font-size: 0.9rem;
-            margin-bottom: 16px;
-            line-height: 1.5;
-        }
-        .btn {
-            background: linear-gradient(135deg, #b8860b 0%, #d4af37 50%, #f59e0b 100%);
-            color: #000000;
-            border: none;
-            padding: 12px 22px;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 800;
-            cursor: pointer;
-            margin: 5px;
-        }
-        .btn-outline {
-            background: rgba(212, 175, 55, 0.12);
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            font-weight: 600;
-        }
-        .btn-sm { padding: 6px 11px; font-size: 0.82rem; margin: 2px; border-radius: 8px; }
-        .btn-danger { background: var(--danger); color: #ffffff; }
-        .btn-success { background: var(--success); color: #ffffff; }
-        .timer {
-            font-size: 1.45rem;
-            font-weight: 900;
-            color: var(--gold);
-            border: 3px solid var(--gold);
-            border-radius: 50%;
-            width: 52px;
-            height: 52px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 12px;
-            background: rgba(0, 0, 0, 0.45);
-        }
-        .timer.warning {
-            color: #ef4444;
-            border-color: #ef4444;
-        }
-        .question-box {
-            font-size: 1.18rem;
-            font-weight: 700;
-            margin: 12px 0 18px;
-            padding: 16px;
-            background: rgba(255, 255, 255, 0.08);
-            border-right: 4px solid var(--gold);
-            border-radius: 10px;
-            line-height: 1.5;
-        }
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
-        }
-        .option-btn {
-            background: rgba(30, 41, 59, 0.95);
-            color: #ffffff;
-            border: 1px solid #475569;
-            padding: 14px 16px;
-            border-radius: 12px;
-            font-size: 1.02rem;
-            font-weight: 600;
-            cursor: pointer;
-            text-align: right;
-        }
-        .option-btn.correct { background: var(--success) !important; border-color: #ffffff !important; }
-        .option-btn.wrong { background: var(--danger) !important; border-color: #ffffff !important; }
-        .hidden { display: none !important; }
-        input[type="number"], input[type="text"] {
-            width: 85%;
-            padding: 11px;
-            border-radius: 10px;
-            border: 1px solid var(--gold);
-            background: #1e293b;
-            color: #ffffff;
-            font-size: 1rem;
-            margin: 8px 0;
-            text-align: center;
-        }
-        .wallet-box {
-            background: rgba(212, 175, 55, 0.16);
-            border: 1px dashed var(--gold);
-            padding: 12px;
-            border-radius: 10px;
-            margin: 10px 0;
-            word-break: break-all;
-            font-family: monospace;
-            font-size: 0.98rem;
-            font-weight: bold;
-            color: var(--gold-light);
-            user-select: all;
-        }
-        .kafu-banner {
-            position: fixed;
-            top: 25%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(45deg, #b8860b, #f59e0b);
-            color: #000000;
-            padding: 14px 32px;
-            border-radius: 50px;
-            font-size: 1.7rem;
-            font-weight: 900;
-            box-shadow: 0 0 35px rgba(212, 175, 55, 0.9);
-            z-index: 9999;
-            pointer-events: none;
-        }
-        .modal-section {
-            margin-top: 15px;
-            border-top: 1px solid #334155;
-            padding-top: 15px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اكتشف غرانيج</title>
+<style>
+:root{--bg:#0f172a;--card:#1e293b;--in:#263349;--gold:#eab308;--txt:#f8fafc;--ok:#22c55e;--no:#ef4444}
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,Tahoma,sans-serif}
+body{background:var(--bg);color:var(--txt);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:15px}
+.box{width:100%;max-width:460px;background:var(--card);border:2px solid var(--gold);border-radius:16px;padding:16px;box-shadow:0 10px 25px #0008}
+.panel{background:var(--in);border-radius:12px;padding:13px;margin-bottom:12px}
+.bal{font-size:1.15rem;font-weight:700;margin-bottom:10px}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.bgold{background:0;border:1.5px solid var(--gold);color:var(--gold);padding:6px 13px;border-radius:8px;font-weight:700;cursor:pointer}
+.bgold:hover{background:var(--gold);color:var(--bg)}
+.bsnd{background:0;border:1.5px solid var(--gold);color:var(--no);width:34px;height:34px;border-radius:8px;cursor:pointer}
+.stats{display:flex;justify-content:space-between;font-size:.9rem;font-weight:700}
+.stats b{color:var(--gold)}
+.err{color:var(--no)!important}
+.qbox{background:var(--in);border-radius:12px;padding:16px;margin-bottom:14px;text-align:center;font-size:1.08rem;font-weight:700;border-right:4px solid var(--gold)}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{background:var(--in);color:var(--txt);border:1.5px solid #334155;padding:13px;border-radius:10px;font-size:.98rem;font-weight:600;text-align:right;cursor:pointer}
+.opt.ok{background:#22c55e33;border-color:var(--ok);color:#4ade80}
+.opt.no{background:#ef444433;border-color:var(--no);color:#f87171}
+.mod{display:none;position:fixed;inset:0;background:#000c;align-items:center;justify-content:center;padding:20px;z-index:9}
+.mod.show{display:flex}
+.mcard{background:var(--card);border:2px solid var(--gold);border-radius:14px;padding:22px;width:100%;max-width:360px;text-align:center}
+.mcard h3{color:var(--gold);margin-bottom:10px}
+.mcard p{color:#94a3b8;font-size:.95rem;margin-bottom:16px;line-height:1.5}
+.mbtn{background:var(--gold);color:var(--bg);border:0;padding:10px;border-radius:8px;font-weight:700;width:100%;cursor:pointer}
+</style>
 </head>
 <body>
-
-<div class="overlay">
-    <div id="kafuBanner" class="kafu-banner hidden">كفو كفو كفو كفو! 🔥</div>
-
-    <audio id="bgMusic" loop preload="auto">
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="kafuAudio" preload="auto">
-        <source src="kafu.mp3" type="audio/mpeg">
-    </audio>
-
-    <div class="container">
-        <div class="top-bar">
-            <span>الرصيد: <strong id="userBalance" style="color:var(--gold);">0</strong> ل.س</span>
-            <div>
-                <button class="btn btn-outline btn-sm" onclick="toggleModal('depositModal')">+ شحن شام كاش</button>
-                <button class="btn btn-outline btn-sm" onclick="toggleModal('withdrawModal')">سحب</button>
-                <button class="btn btn-outline btn-sm" onclick="toggleMusic()" id="musicBtn">🔇</button>
-            </div>
-        </div>
-
-        <div id="homeScreen">
-            <div class="hero-box">
-                <img src=".jbg" alt="دوار النخلة - غرانيج الحبيبة" class="hero-img"
-                     onerror="this.style.display='none'; document.getElementById('heroFallback').classList.remove('hidden');">
-                <div id="heroFallback" class="hero-fallback hidden">🌴 دوار النخلة - غرانيج الحبيبة 🌴<br><span style="font-size:0.9rem; color:#94a3b8;">عروس الفرات وقلعة الصحراء</span></div>
-                <span class="hero-badge">🌴 دوار النخلة - قلب غرانيج</span>
-            </div>
-
-            <h1>اكتشف غرانيج</h1>
-            <p class="subtitle">7 مراحل × 4 أسئلة • 15 ثانية لكل سؤال • خطآن ينهيان الجولة</p>
-
-            <div>
-                <label for="betAmount" style="font-size:0.95rem; color:#e2e8f0;">حدد قيمة الاشتراك (200 - 2000 ل.س):</label><br>
-                <input type="number" id="betAmount" min="200" max="2000" step="50" value="200">
-            </div>
-
-            <div style="margin-top:10px;">
-                <button class="btn" onclick="startGame()">ابدأ التحدي الآن 🚀</button>
-                <button class="btn btn-outline" onclick="shareGame()">مشاركة اللعبة 📤</button>
-            </div>
-        </div>
-
-        <div id="gameScreen" class="hidden">
-            <div class="top-bar">
-                <span>المرحلة: <strong id="stageNum" style="color:var(--gold);">1</strong> / 7</span>
-                <span>السؤال: <strong id="qNum">1</strong> / 4</span>
-                <span>الأخطاء: <strong id="mistakesNum" style="color:#ef4444;">0</strong> / 2</span>
-            </div>
-        <div id="stageEndScreen" class="hidden">
-            <h2 style="color:var(--gold);">أحسنت! أتممت المرحلة <span id="completedStage"></span></h2>
-            <p style="font-size:1.05rem;">رصيدك الحالي في الجولة: <strong id="currentWin" style="color:var(--gold); font-size:1.45rem;"></strong> ل.س</p>
-            <p style="font-size:0.95rem; color:#cbd5e1;">في حال المتابعة، رصيد المرحلة القادمة سيصبح: <strong id="nextWin" style="color:#4ade80;"></strong> ل.س</p>
-            <div style="margin-top:15px;">
-                <button class="btn btn-success" onclick="cashOut()">انسحاب واستلام الربح 💰</button>
-                <button class="btn" onclick="nextStage()">متابعة للمرحلة التالية 🔥</button>
-        </div>
-
-        <div id="endScreen" class="hidden">
-            <h2 id="endTitle"></h2>
-            <p id="endMessage" style="font-size:1.1rem; line-height:1.6;"></p>
-            <button class="btn" onclick="resetToHome()">العودة للرئيسية وإعادة اللعب 🔄</button>
-        </div>
-
-        <div id="depositModal" class="modal-section hidden">
-            <h3 style="color:var(--gold); margin-top:0;">شحن الرصيد عبر شام كاش</h3>
-            <p style="font-size:0.88rem; color:#cbd5e1;">حوّل المبلغ إلى عنوان محفظة شام كاش التالي:</p>
-            <div class="wallet-box" id="shamCashAddress">b6006c01248ed4b797809795e0055ba3</div>
-            <button class="btn btn-outline btn-sm" onclick="copyWallet()">نسخ عنوان المحفظة 📋</button><br>
-            <input type="number" id="depositAmount" placeholder="المبلغ المحول (ل.س)">
-            <input type="text" id="txId" placeholder="رقم عملية التحويل (Transaction ID)">
-            <div>
-                <button class="btn btn-success btn-sm" onclick="submitDeposit()">تأكيد طلب الشحن</button>
-                <button class="btn btn-danger btn-sm" onclick="toggleModal('depositModal')">إغلاق</button>
-            </div>
-        </div>
-
-        <div id="withdrawModal" class="modal-section hidden">
-            <h3 style="color:var(--gold); margin-top:0;">سحب الأرباح إلى شام كاش</h3>
-            <input type="text" id="userWallet" placeholder="أدخل عنوان محفظتك في شام كاش">
-            <input type="number" id="withdrawAmount" placeholder="المبلغ المطلوب سحبه (ل.س)">
-            <div>
-                <button class="btn btn-success btn-sm" onclick="submitWithdraw()">إرسال طلب السحب</button>
-                <button class="btn btn-danger btn-sm" onclick="toggleModal('withdrawModal')">إغلاق</button>
-            </div>
-        </div>
+<div class="box">
+  <div class="panel">
+    <div class="bal">الرصيد: <span id="bal">0</span> ل.س</div>
+    <div class="btns">
+      <button class="bgold" onclick="pop('شحن شام كاش','لشحن رصيدك عبر شام كاش يرجى تحويل المبلغ وإرسال رقم العملية.')">+ شحن شام كاش</button>
+      <button class="bgold" onclick="withdraw()">سحب</button>
+      <button class="bsnd" id="snd" onclick="togSnd()">🔇</button>
     </div>
+  </div>
+  <div class="panel stats">
+    <span>المرحلة: <b id="st">1</b> / 7</span>
+    <span>السؤال: <b id="qn">1</b> / 4</span>
+    <span>الأخطاء: <b id="er" class="err">0</b> / 2</span>
+  </div>
+  <div class="qbox" id="qt"></div>
+  <div class="opts" id="op"></div>
 </div>
-
+<div class="mod" id="md">
+  <div class="mcard">
+    <h3 id="mt"></h3><p id="mb"></p>
+    <button class="mbtn" onclick="cls()">حسناً</button>
+  </div>
+</div>
 <script>
-    if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand();
-    }
-
-    const ghranijBackgrounds = [
-        ".jbg",
-        "ghranij_2.jpg",
-        "ghranij_3.jpg",
-        "ghranij_4.jpg"
-    ];
-
-    const multipliers = [1.0, 1.25, 1.5, 1.75, 2.25, 3.0, 3.75];
-
-    const questionBank = [
-        { q: "كم تبلغ مساحة مدينة غرانيج؟", options: ["144 كم²", "90 كم²", "210 كم²", "115 كم²"], ans: 0 },
-        { q: "ماذا يحد مدينة غرانيج من جهة الجنوب؟", options: ["أراضي البادية", "نهر الفرات", "قرية البحرة", "بلدة الكشكية"], ans: 1 },
-        { q: "ماذا يحد مدينة غرانيج من جهة الشمال؟", options: ["نهر الفرات", "قرية البحرة", "أراضي البادية", "بلدة الكشكية"], ans: 2 },
-        { q: "ماذا يحد مدينة غرانيج من جهة الشرق؟", options: ["بلدة الكشكية", "قرية البحرة", "أبو حمام", "هجين"], ans: 1 },
-        { q: "ماذا يحد مدينة غرانيج من جهة الغرب؟", options: ["قرية البحرة", "بلدة الكشكية", "الشعفة", "السوسة"], ans: 1 },
-        { q: "كم بلغ عدد سكان غرانيج حسب إحصاء عام 2004؟", options: ["15,400 نسمة", "23,009 نسمة", "31,500 نسمة", "19,200 نسمة"], ans: 1 },
-        { q: "كم عدد أفخاذ مدينة غرانيج؟", options: ["7 أفخاذ", "11 فخذاً", "9 أفخاذ", "5 أفخاذ"], ans: 2 },
-        { q: "ما هو أكبر فخذ في مدينة غرانيج؟", options: ["الفرج", "الصعب", "الجعادلة", "الهويش"], ans: 1 },
-        { q: "أي من التالي يُعد من أفخاذ غرانيج التسعة؟", options: ["الحسين العيد والمحاريج", "البوخابور", "المشاهدة", "البوسرايا"], ans: 0 },
-        { q: "ما المعلم الذي يُعد قلب مدينة غرانيج؟", options: ["دوار الصماعة", "دوار النخلة", "الطانجي", "محطة مارديني"], ans: 1 },
-        { q: "أين يقع مسجد عائشة الكبير؟", options: ["في سوق غرانيج", "قبل دوار الصماعة يساراً للمتجه شرقاً مقابل طريق اللايذ", "في منطقة شيبان", "آخر طريق السمرة"], ans: 1 },
-        { q: "ما هو موقع «الطانجي» في غرانيج؟", options: ["سوق تجاري قديم", "موقع محطة مياه سابقاً من زمن العثمانيين", "مدرسة ابتدائية", "مقر البلدية"], ans: 1 },
-        { q: "ما الاسم الرسمي لدوار الصماعة في غرانيج؟", options: ["دوار النخلة", "دوار محمد عبيد الهايس", "دوار الكبرة", "دوار الفرات"], ans: 1 },
-        { q: "أين يقع مسجد غرانيج الكبير؟", options: ["على طريق السمرة", "في سوق غرانيج", "في منطقة شيبان", "قرب السكة"], ans: 1 },
-        { q: "أين تقع محطة كهرباء غرانيج؟", options: ["في سوق غرانيج", "آخر طريق الصماعة قبل السكة يميناً في منطقة الكبرة", "في لايح بدر", "قرب مسجد عائشة"], ans: 1 },
-        { q: "من هو الشهيد من غرانيج الذي قُتل على يد الاستعمار الفرنسي؟", options: ["سنادي", "قصير الموسى", "رغيب الحرب", "دهام"], ans: 0 },
-        { q: "إلى أي فخذ ينتمي الشهيد سنادي؟", options: ["الصعب", "الفرج", "الخميس", "المعدان"], ans: 1 },
-        { q: "من هو الشيخ الذي ورد ذكره بين شخصيات غرانيج؟", options: ["إسماعيل العبد الجزاع", "حسن الغانم", "علي الحماد", "سيد الحماش"], ans: 0 },
-        { q: "اذكر ثلاث مناطق تقع على طريق الصماعة:", options: ["السمرة، النحامة، السماچية", "العتيجة، الگرة، الحرملة", "شيبان، اللايح، الصفاة", "البحرة، الكشكية، الكبرة"], ans: 1 },
-        { q: "اذكر ثلاث مناطق تقع على طريق السمرة:", options: ["العتيجة، الگرة، الحرملة", "السمرة، النحامة، السماچية", "وادي موسى، الصفاة، اللايح", "الكبرة، السوق، شيبان"], ans: 1 },
-        { q: "من أي جهة عن الشارع العام تقع منطقة شيبان؟", options: ["من جهة الشمال", "من جهة الجنوب", "من جهة الشرق", "من جهة الغرب"], ans: 1 },
-        { q: "كم تبلغ مساحة اللايح مع وادي موسى مع الصفاة؟", options: ["1440 دونماً", "2177 دونماً", "3050 دونماً", "1850 دونماً"], ans: 1 },
-        { q: "في أي منطقة تقع محطة مارديني؟", options: ["منطقة الكبرة", "منطقة شيبان", "منطقة العتيجة", "لايح بدر"], ans: 1 },
-        { q: "ما هو تاريخ تحرير غرانيج من تنظيم الدولة؟", options: ["19-1-2018", "15-3-2017", "10-11-2018", "1-5-2017"], ans: 0 },
-        { q: "كم المدة التي قضاها أهل غرانيج مهجّرين أثناء دخول التنظيم؟", options: ["سنة كاملة", "ثلاثة أشهر وعشرة أيام", "ستة أشهر", "شهران فقط"], ans: 1 },
-        { q: "من هو الشخص من غرانيج الذي بقي مع الثورة من بدايتها حتى سقوط الأسد؟", options: ["سيد الحماش", "إبراهيم الجاسم", "علي الحماد", "حسن الغانم"], ans: 0 },
-        { q: "ما هو أشهر محل حلويات في غرانيج منذ عدة سنوات؟", options: ["محل جبير", "محل أبو عسكر", "مطعم السهيل", "محل السماچية"], ans: 0 },
-        { q: "أين يقع محل أبو عسكر؟", options: ["في سوق غرانيج", "على طريق الصماعة", "في منطقة شيبان", "قرب دوار النخلة"], ans: 0 },
-        { q: "أين تقع مدرسة الهياهي؟", options: ["شمال الشارع العام", "من جهة الجنوب من الشارع العام", "في منطقة الكبرة", "في سوق غرانيج"], ans: 1 },
-        { q: "كم تبعد مدينة غرانيج عن مركز محافظة دير الزور؟", options: ["حوالي 90 كم", "حوالي 45 كم", "حوالي 150 كم", "حوالي 120 كم"], ans: 0 },
-        { q: "بماذا تُلقب مدينة غرانيج؟", options: ["عروس الفرات وقلعة الصحراء", "لؤلؤة البادية", "بوابة الشرق", "درة الخابور"], ans: 0 },
-        { q: "كم عدد المدارس في مدينة غرانيج؟", options: ["12 مدرسة", "25 مدرسة", "18 مدرسة", "30 مدرسة"], ans: 1 },
-        { q: "كم مستوصفاً طبياً يوجد في غرانيج؟", options: ["مستوصف واحد", "ثلاثة مستوصفات", "مستوصفان", "أربعة مستوصفات"], ans: 0 },
-        { q: "ما المسمى الذي يشتهر به أهل غرانيج في النخوة؟", options: ["إخوة هدلة", "راعي العوجا", "أولاد علي", "إخوة سلمى"], ans: 0 },
-        { q: "من هو جد غرانيج الذي يتلاقون فيه ويتفاخرون به؟", options: ["زامل", "شعيب", "عقيد", "جبر"], ans: 0 },
-        { q: "كم تتراوح نسبة محبة أبناء غرانيج لبعضهم؟", options: ["من 80% إلى 98%", "من 50% إلى 60%", "من 65% إلى 75%", "40%"], ans: 0 },
-        { q: "من هو صاحب مركز الحديد والإسمنت ومواد البناء في غرانيج؟", options: ["علي الحماد أبو حسين", "إبراهيم الجاسم أبو عبدالله", "قصير الموسى", "دهام"], ans: 0 },
-        { q: "من هو الشخص الذي اشتهر باسم «أبو الحارث» في زمن قسد؟", options: ["إبراهيم الجاسم أبو عبدالله", "سيد الحماش", "علي الحماد", "رغيب الحرب"], ans: 0 }
-    ];
-
-    let balance = parseInt(localStorage.getItem('ghranij_balance'));
-    if (isNaN(balance)) balance = 1000;
-
-    let bet = 200;
-    let stage = 1;
-    let qIndex = 0;
-    let mistakes = 0;
-    let timer = 15;
-    let timerInterval = null;
-    let shuffledQuestions = [];
-    let isAnswered = false;
-    let musicPlaying = false;
-
-    document.getElementById('userBalance').innerText = balance;
-
-    function updateBalance(newBal) {
-        balance = newBal;
-        localStorage.setItem('ghranij_balance', balance);
-        document.getElementById('userBalance').innerText = balance;
-    }
-
-    function playFallbackFanfare() {
-        try {
-            const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            const notes = [523.25, 659.25, 783.99, 1046.50];
-            notes.forEach((freq, i) => {
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.12);
-                gain.gain.setValueAtTime(0.22, ctx.currentTime + i * 0.12);
-                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + 0.35);
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start(ctx.currentTime + i * 0.12);
-                osc.stop(ctx.currentTime + i * 0.12 + 0.35);
-            });
-        } catch (e) {}
-    }
-    function toggleMusic() {
-        const bg = document.getElementById('bgMusic');
-        const btn = document.getElementById('musicBtn');
-        if (musicPlaying) {
-            bg.pause();
-            btn.innerText = '🔇';
-            musicPlaying = false;
-        } else {
-            bg.play().then(() => {
-                btn.innerText = '🔊';
-                musicPlaying = true;
-            }).catch(() => {
-                btn.innerText = '🔊';
-                musicPlaying = true;
-            });
-        }
-    }
-
-    function startGame() {
-        bet = parseInt(document.getElementById('betAmount').value);
-        if (isNaN(bet) || bet < 200 || bet > 2000) {
-            alert("يرجى اختيار قيمة اشتراك بين 200 و 2000 ليرة سورية.");
-            return;
-        }
-        if (balance < bet) {
-            alert("رصيدك الحالي غير كافٍ، يرجى شحن الرصيد عبر شام كاش.");
-            toggleModal('depositModal');
-            return;
-        }
-
-        updateBalance(balance - bet);
-        stage = 1;
-        qIndex = 0;
-        mistakes = 0;
-        shuffledQuestions = [...questionBank].sort(() => Math.random() - 0.5);
-
-        document.getElementById('homeScreen').classList.add('hidden');
-        document.getElementById('endScreen').classList.add('hidden');
-        document.getElementById('depositModal').classList.add('hidden');
-        document.getElementById('withdrawModal').classList.add('hidden');
-        document.getElementById('gameScreen').classList.remove('hidden');
-
-        if (!musicPlaying) toggleMusic();
-        loadQuestion();
-    }
-
-    function loadQuestion() {
-        isAnswered = false;
-        clearInterval(timerInterval);
-        timer = 15;
-
-        const timerEl = document.getElementById('timerDisplay');
-        timerEl.innerText = timer;
-        timerEl.classList.remove('warning');
-
-        document.getElementById('stageNum').innerText = stage;
-        document.getElementById('qNum').innerText = qIndex + 1;
-        document.getElementById('mistakesNum').innerText = mistakes;
-
-        const bgUrl = ghranijBackgrounds[(stage + qIndex) % ghranijBackgrounds.length];
-        const imgTest = new Image();
-        imgTest.onload = () => { document.body.style.backgroundImage = `url('${bgUrl}')`; };
-        imgTest.src = bgUrl;
-
-        const currentQ = shuffledQuestions[(stage - 1) * 4 + qIndex];
-        document.getElementById('questionText').innerText = currentQ.q;
-
-        const mappedOptions = currentQ.options.map((text, idx) => ({
-            text: text,
-            isCorrect: idx === currentQ.ans
-        })).sort(() => Math.random() - 0.5);
-
-        const container = document.getElementById('optionsContainer');
-        container.innerHTML = '';
-
-        mappedOptions.forEach(opt => {
-            const btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.innerText = opt.text;
-            btn.onclick = () => handleAnswer(btn, opt.isCorrect);
-            container.appendChild(btn);
-        });
-
-        timerInterval = setInterval(() => {
-            timer--;
-            timerEl.innerText = timer;
-            if (timer <= 5) timerEl.classList.add('warning');
-            if (timer <= 0) {
-                clearInterval(timerInterval);
-                handleTimeout();
-            }
-        }, 1000);
-    }
-
-    function handleAnswer(btn, isCorrect) {
-        if (isAnswered) return;
-        isAnswered = true;
-        clearInterval(timerInterval);
-
-        if (isCorrect) {
-            btn.classList.add('correct');
-            playKafu();
-            setTimeout(advanceGame, 1700);
-        } else {
-            btn.classList.add('wrong');
-            mistakes++;
-            document.getElementById('mistakesNum').innerText = mistakes;
-            setTimeout(() => {
-                if (mistakes >= 2) {
-                    endGame(false, "ارتكبت خطأين في هذه الجولة وخسرت قيمة الاشتراك والربح!");
-                } else {
-                    advanceGame();
-                }
-            }, 1400);
-        }
-    }
-
-    function handleTimeout() {
-        if (isAnswered) return;
-        isAnswered = true;
-        mistakes++;
-        document.getElementById('mistakesNum').innerText = mistakes;
-        if (mistakes >= 2) {
-            endGame(false, "انتهى الوقت المحدد (15 ثانية) وارتكبت خطأين!");
-        } else {
-            setTimeout(advanceGame, 1000);
-        }
-    }
-
-    function playKafu() {
-        const banner = document.getElementById('kafuBanner');
-        const audio = document.getElementById('kafuAudio');
-        banner.classList.remove('hidden');
-
-        audio.currentTime = 0;
-        audio.play().catch(() => {
-            playFallbackFanfare();
-        });
-
-        setTimeout(() => {
-            banner.classList.add('hidden');
-        }, 1600);
-    }
-
-    function advanceGame() {
-        qIndex++;
-        if (qIndex < 4) {
-            loadQuestion();
-        } else {
-            document.getElementById('gameScreen').classList.add('hidden');
-            const currentWin = Math.round(bet * multipliers[stage - 1]);
-
-            if (stage === 7) {
-                updateBalance(balance + currentWin);
-                endGame(true, `ألف مبروك! أنهيت جميع المراحل السبع بنجاح وفزت بالجائزة الكبرى: ${currentWin} ل.س!`);
-            } else {
-                const nextWin = Math.round(bet * multipliers[stage]);
-                document.getElementById('completedStage').innerText = stage;
-                document.getElementById('currentWin').innerText = currentWin;
-                document.getElementById('nextWin').innerText = nextWin;
-                document.getElementById('stageEndScreen').classList.remove('hidden');
-            }
-        }
-    }
-
-    function cashOut() {
-        const win = Math.round(bet * multipliers[stage - 1]);
-        updateBalance(balance + win);
-        document.getElementById('stageEndScreen').classList.add('hidden');
-        endGame(true, `قررت الانسحاب بذكاء! تمت إضافة ${win} ل.س إلى رصيدك.`);
-    }
-
-    function nextStage() {
-        stage++;
-        qIndex = 0;
-        document.getElementById('stageEndScreen').classList.add('hidden');
-        document.getElementById('gameScreen').classList.remove('hidden');
-        loadQuestion();
-    }
-
-    function endGame(isWin, msg) {
-        clearInterval(timerInterval);
-        document.getElementById('gameScreen').classList.add('hidden');
-        document.getElementById('stageEndScreen').classList.add('hidden');
-        document.getElementById('endScreen').classList.remove('hidden');
-        document.getElementById('endTitle').innerText = isWin ? "🎉 كفو! فوز مستحق" : "❌ انتهت الجولة";
-        document.getElementById('endTitle').style.color = isWin ? "#4ade80" : "#ef4444";
-        document.getElementById('endMessage').innerText = msg;
-    }
-
-    function resetToHome() {
-        document.getElementById('endScreen').classList.add('hidden');
-        document.getElementById('homeScreen').classList.remove('hidden');
-    }
-
-    function toggleModal(id) {
-        const target = document.getElementById(id);
-        const other = id === 'depositModal' ? 'withdrawModal' : 'depositModal';
-        document.getElementById(other).classList.add('hidden');
-        target.classList.toggle('hidden');
-    }
-
-    function copyWallet() {
-        const addr = "b6006c01248ed4b797809795e0055ba3";
-        navigator.clipboard.writeText(addr).then(() => {
-            alert("تم نسخ عنوان محفظة شام كاش بنجاح:\n" + addr);
-        }).catch(() => {
-            alert("عنوان محفظة شام كاش:\n" + addr);
-        });
-    }
-
-    function submitDeposit() {
-        const amt = document.getElementById('depositAmount').value;
-        const tx = document.getElementById('txId').value.trim();
-        if (!amt || amt <= 0 || !tx) {
-            alert("يرجى إدخال المبلغ المحول ورقم العملية بشكل صحيح.");
-            return;
-        }
-        alert(`تم استلام طلب الشحن بمبلغ ${amt} ل.س (رقم العملية: ${tx}) إلى المحفظة b6006c01248ed4b797809795e0055ba3. سيتم تحديث رصيدك فور التحقق.`);
-        document.getElementById('depositAmount').value = '';
-        document.getElementById('txId').value = '';
-        toggleModal('depositModal');
-    }
-
-    function submitWithdraw() {
-        const wallet = document.getElementById('userWallet').value.trim();
-        const amt = parseInt(document.getElementById('withdrawAmount').value);
-        if (!wallet || isNaN(amt) || amt <= 0 || amt > balance) {
-            alert("يرجى التأكد من إدخال عنوان محفظتك ومبلغ لا يتجاوز رصيدك المتاح.");
-            return;
-        }
-        updateBalance(balance - amt);
-        alert(`تم إرسال طلب سحب ${amt} ل.س إلى محفظتك في شام كاش (${wallet}) بنجاح.`);
-        document.getElementById('userWallet').value = '';
-        document.getElementById('withdrawAmount').value = '';
-        toggleModal('withdrawModal');
-    }
-
-    function shareGame() {
-        const url = window.location.href;
-        const text = "تحدّى معلوماتك في لعبة «اكتشف غرانيج» عبر 7 مراحل وضاعف رصيدك الآن! 🔥🌴";
-        if (navigator.share) {
-            navigator.share({ title: 'اكتشف غرانيج', text: text, url: url }).catch(() => {});
-        } else {
-            window.open(`https://wa.me{encodeURIComponent(text + "\n" + url)}`, '_blank');
-        }
-    }
+const D=[
+[["ما هو اللقب الأشهر لمدينة غرانيج؟",["عروس الفرات","لؤلؤة الشام","بوابة البادية","جنة الشرق"],0],
+["على أي ضفة من نهر الفرات تقع غرانيج؟",["الضفة اليمنى","الضفة اليسرى (الجزيرة)","وسط النهر","تبعد عن النهر"],1],
+["كم تبعد غرانيج تقريباً شرق مدينة دير الزور؟",["30 كم","60 كم","90 كم","140 كم"],2],
+["أي بلدة تحد غرانيج من جهة الغرب؟",["البحرة","الكشكية","الميادين","السوسة"],1]],
+[["أي بلدة تحد غرانيج من جهة الشرق؟",["البحرة","هجين","أبو حمام","الشعفة"],0],
+["في أي عام أُحدثت بلدية غرانيج رسمياً؟",["1955","1968","1980","1991"],1],
+["ما ترتيب غرانيج من حيث المساحة في دير الزور؟",["الأولى","الثانية","الرابعة","السادسة"],2],
+["سبب تسمية غرانيج بهذا الاسم؟",["طائر الغرنوق","كانت مغمورة بمياه الفرات ثم جفت","اسم قائد","كثرة الآبار"],1]],
+[["ما هو المحصول الزراعي الرئيسي في غرانيج؟",["الزيتون","القطن والقمح","التفاح","التبغ"],1],
+["كم تبلغ مساحة أراضي غرانيج تقريباً؟",["50 كم²","95 كم²","144 كم²","250 كم²"],2],
+["إلى أي منطقة إدارية تتبع مدينة غرانيج؟",["منطقة البوكمال","منطقة الميادين","مركز دير الزور","التبني"],0],
+["ماذا يحد مدينة غرانيج من جهة الشمال؟",["نهر الفرات","البادية (الجزيرة)","العراق","نهر الخابور"],1]],
+[["متى فُصلت الكشكية وأبو حمام عن بلدية غرانيج؟",["1975","1985","1991","2000"],2],
+["ماذا يحد مدينة غرانيج من جهة الجنوب؟",["نهر الفرات","البادية","جبل البشري","طريق الحسكة"],0],
+["بماذا تشتهر سهول غرانيج الزراعية؟",["تربة رملية","خصوبتها العالية على ضفة النهر","زراعة بعلية","أشجار حراجية"],1],
+["النشاط الاقتصادي الثاني للسكان بعد الزراعة؟",["الصناعة الثقيلة","تربية المواشي والتجارة","السياحة","التعدين"],1]],
+[["ما هو اللقب الثاني الذي يُطلق على غرانيج؟",["قلعة الصحراء","مدينة النواعير","درة الفرات","واحة الشرق"],0],
+["تُعرف منطقة غرانيج وما حولها محلياً باسم:",["الشعيطات","البقارة","العكيدات","المشاهدة"],0],
+["تعتمد الزراعة في غرانيج بشكل أساسي على:",["مياه الأمطار","الري من نهر الفرات","الينابيع","تحلية المياه"],1],
+["ما هو المناخ السائد في مدينة غرانيج؟",["متوسطي معتدل","شبه صحراوي حار صيفاً","استوائي","بارد"],1]],
+[["كم عدد المراحل الكلي في لعبة اكتشف غرانيج؟",["5 مراحل","7 مراحل","10 مراحل","3 مراحل"],1],
+["أي من هذه المدن أقرب إلى غرانيج؟",["هجين","الرقة","تدمر","الحسكة"],0],
+["تشتهر المنطقة بتربية:",["الأغنام والأبقار","الخيول فقط","الغزلان","النعام"],0],
+["تقع غرانيج في الجزء:",["الشمالي الغربي من سوريا","الشرقي من سوريا","الجنوبي","الساحلي"],1]],
+[["تُعد غرانيج من أهم مراكز إنتاج:",["القمح والقطن والخضروات","الموز","البن والشاي","الفستق"],0],
+["يفصل نهر الفرات غرانيج عن بلدات:",["الضفة اليمنى (الشامية)","الحدود التركية","بادية الشام","دجلة"],0],
+["وسيلة الري المنتشرة في بساتين غرانيج:",["المضخات الزراعية وقنوات الري","السواقي","الأفلاج","الأمطار"],0],
+["تهانينا! السؤال الأخير، غرانيج هي:",["مدينة عريقة في ريف دير الزور الشرقي","قرية بحلب","بلدة بدمشق","مدينة ساحلية"],0]]
+];
+let s=0,q=0,e=0,b=0,snd=0,lk=0,cb=null;
+const $=id=>document.getElementById(id);
+function load(){
+  lk=0;let item=D[s][q];
+  $('st').textContent=s+1;$('qn').textContent=q+1;$('er').textContent=e;$('bal').textContent=b.toLocaleString();
+  $('qt').textContent=item[0];$('op').innerHTML='';
+  item[1].forEach((t,i)=>{
+    let btn=document.createElement('button');btn.className='opt';btn.textContent=t;
+    btn.onclick=()=>ans(i,btn);$('op').appendChild(btn);
+  });
+}
+function ans(i,btn){
+  if(lk)return;lk=1;let c=D[s][q][2],bs=document.querySelectorAll('.opt');
+  if(i===c){btn.classList.add('ok');b+=500;$('bal').textContent=b.toLocaleString();setTimeout(nxt,800);}
+  else{btn.classList.add('no');bs[c].classList.add('ok');e++;$('er').textContent=e;
+    setTimeout(()=>{if(e>=2)pop('انتهت المحاولات','ارتكبت خطأين، ستُعاد المرحلة الحالية.',()=>{e=0;q=0;load()});else nxt();},1000);
+  }
+}
+function nxt(){
+  q++;if(q>=4){if(s+1<D.length)pop('أحسنت!','أتممت المرحلة '+(s+1)+' بنجاح.',()=>{s++;q=0;e=0;load()});
+  else pop('مبروك الفوز! 🏆','أنهيت جميع المراحل برصيد '+b.toLocaleString()+' ل.س.',()=>{s=0;q=0;e=0;load()});}else load();
+}
+function togSnd(){snd=!snd;$('snd').textContent=snd?'🔊':'🔇';$('snd').style.color=snd?'#22c55e':'#ef4444';}
+function withdraw(){pop('طلب سحب',b<5000?'رصيدك '+b.toLocaleString()+' ل.س، الحد الأدنى للسحب 5,000 ل.س.':'يمكنك الآن سحب '+b.toLocaleString()+' ل.س عبر شام كاش.');}
+function pop(t,m,f=null){$('mt').textContent=t;$('mb').textContent=m;cb=f;$('md').classList.add('show');}
+function cls(){$('md').classList.remove('show');if(cb){let f=cb;cb=null;f();}}
+load();
 </script>
 </body>
 </html>
