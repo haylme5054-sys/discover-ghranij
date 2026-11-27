@@ -1,74 +1,8 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>اكتشف غرانيج</title>
-<style>
-:root{--bg:#0f172a;--card:#1e293b;--in:#263349;--gold:#eab308;--txt:#f8fafc;--ok:#22c55e;--no:#ef4444}
-*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,Tahoma,sans-serif}
-body{background:var(--bg);color:var(--txt);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:14px}
-.box{width:100%;max-width:450px;background:var(--card);border:2px solid var(--gold);border-radius:16px;padding:15px}
-.panel{background:var(--in);border-radius:12px;padding:12px;margin-bottom:11px}
-.bal{font-size:1.1rem;font-weight:700;margin-bottom:9px}
-.btns{display:flex;gap:7px;flex-wrap:wrap}
-.bgold{background:0;border:1.5px solid var(--gold);color:var(--gold);padding:6px 11px;border-radius:8px;font-weight:700;cursor:pointer;font-size:.85rem}
-.bsnd{background:0;border:1.5px solid var(--gold);color:var(--no);width:33px;height:33px;border-radius:8px;cursor:pointer}
-.stats{display:flex;justify-content:space-between;font-size:.88rem;font-weight:700}
-.stats b{color:var(--gold)}.err{color:var(--no)!important}
-.qbox{background:var(--in);border-radius:12px;padding:15px;margin-bottom:13px;text-align:center;font-size:1.05rem;font-weight:700;border-right:4px solid var(--gold)}
-.opts{display:flex;flex-direction:column;gap:8px}
-.opt{background:var(--in);color:var(--txt);border:1.5px solid #334155;padding:12px;border-radius:10px;font-size:.95rem;font-weight:600;text-align:right;cursor:pointer}
-.opt.ok{background:#22c55e33;border-color:var(--ok);color:#4ade80}.opt.no{background:#ef444433;border-color:var(--no);color:#f87171}
-.mod{display:none;position:fixed;inset:0;background:#000d;align-items:center;justify-content:center;padding:15px;z-index:9}
-.mod.show{display:flex}
-.mcard{background:var(--card);border:2px solid var(--gold);border-radius:14px;padding:18px;width:100%;max-width:370px;text-align:center}
-.mcard h3{color:var(--gold);margin-bottom:8px}.mcard p{color:#cbd5e1;font-size:.88rem;margin-bottom:10px;line-height:1.4}
-.addr{background:#0f172a;border:1px dashed var(--gold);padding:8px;border-radius:8px;font-size:.75rem;word-break:break-all;color:var(--gold);margin-bottom:8px}
-.inp{width:100%;padding:9px;border-radius:8px;border:1px solid #475569;background:#0f172a;color:#fff;margin-bottom:8px;font-size:.9rem;text-align:right}
-.mbtn{background:var(--gold);color:var(--bg);border:0;padding:9px;border-radius:8px;font-weight:700;width:100%;cursor:pointer;margin-bottom:7px}
-.mbtn.sec{background:#334155;color:#fff}
-</style>
-</head>
-<body>
-<div class="box">
-  <div class="panel">
-    <div class="bal">الرصيد: <span id="bal">0</span> ل.س</div>
-    <div class="btns">
-      <button class="bgold" onclick="$('topup-md').classList.add('show')">+ شحن شام كاش</button>
-      <button class="bgold" onclick="$('wd-bal').textContent=b.toLocaleString();$('wd-md').classList.add('show')">سحب</button>
-      <button class="bsnd" id="snd" onclick="togSnd()">🔇</button>
-    </div>
-  </div>
-  <div class="panel stats">
-    <span>المرحلة: <b id="st">1</b> / 7</span>
-    <span>السؤال: <b id="qn">1</b> / 4</span>
-    <span>الأخطاء: <b id="er" class="err">0</b> / 2</span>
-  </div>
-  <div class="qbox" id="qt"></div>
-  <div class="opts" id="op"></div>
-</div>
-<div class="mod" id="md"><div class="mcard"><h3 id="mt"></h3><p id="mb"></p><button class="mbtn" onclick="cls()">حسناً</button></div></div>
-<div class="mod" id="topup-md"><div class="mcard">
-  <h3>شحن رصيد شام كاش</h3>
-  <p>انسخ العنوان وحوّل من 200 إلى 20,000 ل.س:</p>
-  <div class="addr" id="sc-addr">b6006c01248ed4b797809795e0055ba3</div>
-  <button class="mbtn sec" onclick="navigator.clipboard.writeText($('sc-addr').textContent);alert('تم النسخ!')">📋 نسخ عنوان شام كاش</button>
-  <input type="number" id="amt" class="inp" placeholder="المبلغ (200 - 20000 ل.س)">
-  <input type="text" id="txid" class="inp" placeholder="رقم عملية التحويل">
-  <button class="mbtn" onclick="sendTopupWA()">📲 إرسال الإشعار عبر واتساب</button>
-  <input type="text" id="vcode" class="inp" placeholder="أدخل كود الشحن المستلم">
-  <button class="mbtn sec" onclick="redeemCode()">تفعيل الكود</button>
-  <button class="mbtn sec" style="background:#ef444433;color:#f87171" onclick="$('topup-md').classList.remove('show')">إغلاق</button>
-</div></div>
-<div class="mod" id="wd-md"><div class="mcard">
-  <h3>سحب الرصيد</h3>
-  <p>رصيدك: <b style="color:var(--gold)" id="wd-bal">0</b> ل.س (الحد الأدنى 5,000)</p>
-  <input type="number" id="wd-amt" class="inp" placeholder="المبلغ المراد سحبه">
-  <input type="text" id="wd-addr" class="inp" placeholder="عنوان شام كاش الخاص بك">
-  <button class="mbtn" onclick="sendWdWA()">📲 طلب السحب عبر واتساب</button>
-  <button class="mbtn sec" onclick="$('wd-md').classList.remove('show')">إغلاق</button>
-</div></div>
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>اكتشف غرانيج</title><style>:root{--bg:#0f172a;--card:#1e293b;--in:#263349;--gold:#eab308;--txt:#f8fafc;--ok:#22c55e;--no:#ef4444}*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,Tahoma,sans-serif}body{background:var(--bg);color:var(--txt);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:14px}.box{width:100%;max-width:450px;background:var(--card);border:2px solid var(--gold);border-radius:16px;padding:15px}.panel{background:var(--in);border-radius:12px;padding:12px;margin-bottom:11px}.bal{font-size:1.1rem;font-weight:700;margin-bottom:9px}.btns{display:flex;gap:7px;flex-wrap:wrap}.bgold{background:0;border:1.5px solid var(--gold);color:var(--gold);padding:6px 11px;border-radius:8px;font-weight:700;cursor:pointer;font-size:.85rem}.bsnd{background:0;border:1.5px solid var(--gold);color:var(--no);width:33px;height:33px;border-radius:8px;cursor:pointer}.stats{display:flex;justify-content:space-between;font-size:.88rem;font-weight:700}.stats b{color:var(--gold)}.err{color:var(--no)!important}.qbox{background:var(--in);border-radius:12px;padding:15px;margin-bottom:13px;text-align:center;font-size:1.05rem;font-weight:700;border-right:4px solid var(--gold);line-height:1.5}.opts{display:flex;flex-direction:column;gap:8px}.opt{background:var(--in);color:var(--txt);border:1.5px solid #334155;padding:12px;border-radius:10px;font-size:.95rem;font-weight:600;text-align:right;cursor:pointer}.opt.ok{background:#22c55e33;border-color:var(--ok);color:#4ade80}.opt.no{background:#ef444433;border-color:var(--no);color:#f87171}.mod{display:none;position:fixed;inset:0;background:#000d;align-items:center;justify-content:center;padding:15px;z-index:99}.mod.show{display:flex}.mcard{background:var(--card);border:2px solid var(--gold);border-radius:14px;padding:18px;width:100%;max-width:370px;text-align:center;max-height:92vh;overflow-y:auto}.mcard h3{color:var(--gold);margin-bottom:8px}.mcard p{color:#cbd5e1;font-size:.88rem;margin-bottom:10px;line-height:1.4}.addr{background:#0f172a;border:1px dashed var(--gold);padding:8px;border-radius:8px;font-size:.75rem;word-break:break-all;color:var(--gold);margin-bottom:8px}.inp{width:100%;padding:9px;border-radius:8px;border:1px solid #475569;background:#0f172a;color:#fff;margin-bottom:8px;font-size:.9rem;text-align:right}.mbtn{background:var(--gold);color:var(--bg);border:0;padding:9px;border-radius:8px;font-weight:700;width:100%;cursor:pointer;margin-bottom:7px}.mbtn.sec{background:#334155;color:#fff}</style></head><body>
+<div class="box"><div class="panel"><div class="bal">الرصيد: <span id="bal">0</span> ل.س</div><div class="btns"><button type="button" class="bgold" onclick="showModal('topup-md')">+ شحن شام كاش</button><button type="button" class="bgold" onclick="openWd()">سحب</button><button type="button" class="bsnd" id="snd" onclick="togSnd()">🔇</button></div></div><div class="panel stats"><span>المرحلة: <b id="st">1</b> / 7</span><span>السؤال: <b id="qn">1</b> / 4</span><span>الأخطاء: <b id="er" class="err">0</b> / 2</span></div><div class="qbox" id="qt"></div><div class="opts" id="op"></div></div>
+<div class="mod" id="md"><div class="mcard"><h3 id="mt"></h3><p id="mb"></p><button type="button" class="mbtn" onclick="cls()">حسناً</button></div></div>
+<div class="mod" id="topup-md"><div class="mcard"><h3>شحن رصيد شام كاش</h3><p>انسخ العنوان وحوّل من 200 إلى 20,000 ل.س:</p><div class="addr" id="sc-addr">b6006c01248ed4b797809795e0055ba3</div><button type="button" class="mbtn sec" onclick="copySc()">📋 نسخ عنوان شام كاش</button><input type="number" id="amt" class="inp" placeholder="المبلغ (200 - 20000 ل.س)"><input type="text" id="txid" class="inp" placeholder="رقم عملية التحويل"><button type="button" class="mbtn" onclick="sendTopupWA()">📲 إرسال الإشعار عبر واتساب</button><input type="text" id="vcode" class="inp" placeholder="أدخل كود الشحن المستلم"><button type="button" class="mbtn sec" onclick="redeemCode()">تفعيل الكود</button><button type="button" class="mbtn sec" style="background:#ef444433;color:#f87171" onclick="hideModal('topup-md')">إغلاق</button></div></div>
+<div class="mod" id="wd-md"><div class="mcard"><h3>سحب الرصيد</h3><p>رصيدك: <b style="color:var(--gold)" id="wd-bal">0</b> ل.س (الحد الأدنى 5,000)</p><input type="number" id="wd-amt" class="inp" placeholder="المبلغ المراد سحبه"><input type="text" id="wd-addr" class="inp" placeholder="عنوان شام كاش الخاص بك"><button type="button" class="mbtn" onclick="sendWdWA()">📲 طلب السحب عبر واتساب</button><button type="button" class="mbtn sec" onclick="hideModal('wd-md')">إغلاق</button></div></div>
 <script>
 const WA="+963994601625",CODES={GH200:200,GH500:500,GH1000:1000,GH2000:2000,GH5000:5000,GH10000:10000,GH20000:20000};
 const D=[
@@ -81,17 +15,19 @@ const D=[
 [["أهم مراكز إنتاج:",["القمح والقطن والخضروات","الموز","البن","الفستق"],0],["يفصلها الفرات عن:",["الضفة اليمنى (الشامية)","تركيا","بادية الشام","دجلة"],0],["وسيلة الري المنتشرة:",["المضخات وقنوات الري","السواقي","الأفلاج","الأمطار"],0],["غرانيج هي:",["مدينة عريقة بريف دير الزور الشرقي","قرية بحلب","بلدة بدمشق","مدينة ساحلية"],0]]
 ];
 let s=0,q=0,e=0,snd=0,lk=0,cb=null,b=parseInt(localStorage.getItem('gh_bal')||'0'),used=JSON.parse(localStorage.getItem('gh_used')||'[]');
-const $=id=>document.getElementById(id),saveBal=()=>{localStorage.setItem('gh_bal',b);$('bal').textContent=b.toLocaleString();};
-function load(){lk=0;let it=D[s][q];$('st').textContent=s+1;$('qn').textContent=q+1;$('er').textContent=e;saveBal();$('qt').textContent=it;$('op').innerHTML='';it.forEach((t,i)=>{let btn=document.createElement('button');btn.className='opt';btn.textContent=t;btn.onclick=()=>ans(i,btn);$('op').appendChild(btn);});}
-function ans(i,btn){if(lk)return;lk=1;let c=D[s][q],bs=document.querySelectorAll('.opt');if(i===c){btn.classList.add('ok');b+=500;saveBal();setTimeout(nxt,800);}else{btn.classList.add('no');bs[c].classList.add('ok');e++;$('er').textContent=e;setTimeout(()=>{if(e>=2)pop('انتهت المحاولات','ستُعاد المرحلة الحالية.',()=>{e=0;q=0;load()});else nxt();},1000);}}
+const getEl=id=>document.getElementById(id),saveBal=()=>{localStorage.setItem('gh_bal',b);getEl('bal').textContent=b.toLocaleString();};
+function showModal(id){getEl(id).classList.add('show');}
+function hideModal(id){getEl(id).classList.remove('show');}
+function openWd(){getEl('wd-bal').textContent=b.toLocaleString();showModal('wd-md');}
+function copySc(){const t=getEl('sc-addr').textContent;if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>alert('تم نسخ عنوان شام كاش!')).catch(()=>prompt('انسخ العنوان يدوياً:',t));else prompt('انسخ العنوان يدوياً:',t);}
+function load(){lk=0;let it=D[s][q];getEl('st').textContent=s+1;getEl('qn').textContent=q+1;getEl('er').textContent=e;saveBal();getEl('qt').textContent=it[0];getEl('op').innerHTML='';it[1].forEach((t,i)=>{let btn=document.createElement('button');btn.type='button';btn.className='opt';btn.textContent=t;btn.onclick=()=>ans(i,btn);getEl('op').appendChild(btn);});}
+function ans(i,btn){if(lk)return;lk=1;let c=D[s][q][2],bs=document.querySelectorAll('.opt');if(i===c){btn.classList.add('ok');b+=500;saveBal();setTimeout(nxt,800);}else{btn.classList.add('no');bs[c].classList.add('ok');e++;getEl('er').textContent=e;setTimeout(()=>{if(e>=2)pop('انتهت المحاولات','ستُعاد المرحلة الحالية.',()=>{e=0;q=0;load()});else nxt();},1000);}}
 function nxt(){q++;if(q>=4){if(s+1<D.length)pop('أحسنت!','أتممت المرحلة '+(s+1),()=>{s++;q=0;e=0;load()});else pop('مبروك الفوز! 🏆','رصيدك '+b.toLocaleString()+' ل.س',()=>{s=0;q=0;e=0;load()});}else load();}
-function togSnd(){snd=!snd;$('snd').textContent=snd?'🔊':'🔇';$('snd').style.color=snd?'#22c55e':'#ef4444';}
-function pop(t,m,f=null){$('mt').textContent=t;$('mb').textContent=m;cb=f;$('md').classList.add('show');}
-function cls(){$('md').classList.remove('show');if(cb){let f=cb;cb=null;f();}}
-function sendTopupWA(){let a=parseInt($('amt').value),tx=$('txid').value.trim();if(!a||a<200||a>20000)return alert('المبلغ بين 200 و 20,000 ل.س');if(!tx)return alert('أدخل رقم العملية');window.open(`https://wa.me{WA}?text=${encodeURIComponent(`شحن اكتشف غرانيج:\nالمبلغ: ${a} ل.س\nرقم العملية: ${tx}`)}`,'_blank');}
-function redeemCode(){let c=$('vcode').value.trim().toUpperCase();if(!CODES[c])return alert('كود غير صحيح');if(used.includes(c))return alert('مستخدم مسبقاً');b+=CODES[c];used.push(c);localStorage.setItem('gh_used',JSON.stringify(used));saveBal();$('vcode').value='';$('topup-md').classList.remove('show');pop('تم الشحن! 🎉',`أُضيف ${CODES[c].toLocaleString()} ل.س`);}
-function sendWdWA(){let a=parseInt($('wd-amt').value),ad=$('wd-addr').value.trim();if(b<5000||!a||a<5000||a>b||!ad)return alert('تأكد من الرصيد (الحد الأدنى 5,000) وعنوان شام كاش');b-=a;saveBal();$('wd-md').classList.remove('show');window.open(`https://wa.me{WA}?text=${encodeURIComponent(`سحب من اكتشف غرانيج:\nالمبلغ: ${a} ل.س\nعنوان شام كاش: ${ad}`)}`,'_blank');}
+function togSnd(){snd=!snd;getEl('snd').textContent=snd?'🔊':'🔇';getEl('snd').style.color=snd?'#22c55e':'#ef4444';}
+function pop(t,m,f=null){getEl('mt').textContent=t;getEl('mb').textContent=m;cb=f;showModal('md');}
+function cls(){hideModal('md');if(cb){let f=cb;cb=null;f();}}
+function sendTopupWA(){let a=parseInt(getEl('amt').value),tx=getEl('txid').value.trim();if(!a||a<200||a>20000)return alert('المبلغ بين 200 و 20,000 ل.س');if(!tx)return alert('أدخل رقم العملية');window.open(`https://wa.me{WA}?text=${encodeURIComponent(`شحن اكتشف غرانيج:\nالمبلغ: ${a} ل.س\nرقم العملية: ${tx}`)}`,'_blank');}
+function redeemCode(){let c=getEl('vcode').value.trim().toUpperCase();if(!CODES[c])return alert('كود غير صحيح');if(used.includes(c))return alert('مستخدم مسبقاً');b+=CODES[c];used.push(c);localStorage.setItem('gh_used',JSON.stringify(used));saveBal();getEl('vcode').value='';hideModal('topup-md');pop('تم الشحن! 🎉',`أُضيف ${CODES[c].toLocaleString()} ل.س`);}
+function sendWdWA(){let a=parseInt(getEl('wd-amt').value),ad=getEl('wd-addr').value.trim();if(b<5000||!a||a<5000||a>b||!ad)return alert('تأكد من الرصيد (الحد الأدنى 5,000) وعنوان شام كاش');b-=a;saveBal();hideModal('wd-md');window.open(`https://wa.me{WA}?text=${encodeURIComponent(`سحب من اكتشف غرانيج:\nالمبلغ: ${a} ل.س\nعنوان شام كاش: ${ad}`)}`,'_blank');}
 load();
-</script>
-</body>
-</html>
+</script></body></html>
