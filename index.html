@@ -7,28 +7,27 @@
 <style>
 :root{--bg:#0f172a;--card:#1e293b;--in:#263349;--gold:#eab308;--txt:#f8fafc;--ok:#22c55e;--no:#ef4444}
 *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,Tahoma,sans-serif}
-body{background:var(--bg);color:var(--txt);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:15px}
-.box{width:100%;max-width:460px;background:var(--card);border:2px solid var(--gold);border-radius:16px;padding:16px;box-shadow:0 10px 25px #0008}
-.panel{background:var(--in);border-radius:12px;padding:13px;margin-bottom:12px}
-.bal{font-size:1.15rem;font-weight:700;margin-bottom:10px}
-.btns{display:flex;gap:8px;flex-wrap:wrap}
-.bgold{background:0;border:1.5px solid var(--gold);color:var(--gold);padding:6px 13px;border-radius:8px;font-weight:700;cursor:pointer}
-.bgold:hover{background:var(--gold);color:var(--bg)}
-.bsnd{background:0;border:1.5px solid var(--gold);color:var(--no);width:34px;height:34px;border-radius:8px;cursor:pointer}
-.stats{display:flex;justify-content:space-between;font-size:.9rem;font-weight:700}
-.stats b{color:var(--gold)}
-.err{color:var(--no)!important}
-.qbox{background:var(--in);border-radius:12px;padding:16px;margin-bottom:14px;text-align:center;font-size:1.08rem;font-weight:700;border-right:4px solid var(--gold)}
-.opts{display:flex;flex-direction:column;gap:9px}
-.opt{background:var(--in);color:var(--txt);border:1.5px solid #334155;padding:13px;border-radius:10px;font-size:.98rem;font-weight:600;text-align:right;cursor:pointer}
-.opt.ok{background:#22c55e33;border-color:var(--ok);color:#4ade80}
-.opt.no{background:#ef444433;border-color:var(--no);color:#f87171}
-.mod{display:none;position:fixed;inset:0;background:#000c;align-items:center;justify-content:center;padding:20px;z-index:9}
+body{background:var(--bg);color:var(--txt);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:14px}
+.box{width:100%;max-width:450px;background:var(--card);border:2px solid var(--gold);border-radius:16px;padding:15px}
+.panel{background:var(--in);border-radius:12px;padding:12px;margin-bottom:11px}
+.bal{font-size:1.1rem;font-weight:700;margin-bottom:9px}
+.btns{display:flex;gap:7px;flex-wrap:wrap}
+.bgold{background:0;border:1.5px solid var(--gold);color:var(--gold);padding:6px 11px;border-radius:8px;font-weight:700;cursor:pointer;font-size:.85rem}
+.bsnd{background:0;border:1.5px solid var(--gold);color:var(--no);width:33px;height:33px;border-radius:8px;cursor:pointer}
+.stats{display:flex;justify-content:space-between;font-size:.88rem;font-weight:700}
+.stats b{color:var(--gold)}.err{color:var(--no)!important}
+.qbox{background:var(--in);border-radius:12px;padding:15px;margin-bottom:13px;text-align:center;font-size:1.05rem;font-weight:700;border-right:4px solid var(--gold)}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{background:var(--in);color:var(--txt);border:1.5px solid #334155;padding:12px;border-radius:10px;font-size:.95rem;font-weight:600;text-align:right;cursor:pointer}
+.opt.ok{background:#22c55e33;border-color:var(--ok);color:#4ade80}.opt.no{background:#ef444433;border-color:var(--no);color:#f87171}
+.mod{display:none;position:fixed;inset:0;background:#000d;align-items:center;justify-content:center;padding:15px;z-index:9}
 .mod.show{display:flex}
-.mcard{background:var(--card);border:2px solid var(--gold);border-radius:14px;padding:22px;width:100%;max-width:360px;text-align:center}
-.mcard h3{color:var(--gold);margin-bottom:10px}
-.mcard p{color:#94a3b8;font-size:.95rem;margin-bottom:16px;line-height:1.5}
-.mbtn{background:var(--gold);color:var(--bg);border:0;padding:10px;border-radius:8px;font-weight:700;width:100%;cursor:pointer}
+.mcard{background:var(--card);border:2px solid var(--gold);border-radius:14px;padding:18px;width:100%;max-width:370px;text-align:center}
+.mcard h3{color:var(--gold);margin-bottom:8px}.mcard p{color:#cbd5e1;font-size:.88rem;margin-bottom:10px;line-height:1.4}
+.addr{background:#0f172a;border:1px dashed var(--gold);padding:8px;border-radius:8px;font-size:.75rem;word-break:break-all;color:var(--gold);margin-bottom:8px}
+.inp{width:100%;padding:9px;border-radius:8px;border:1px solid #475569;background:#0f172a;color:#fff;margin-bottom:8px;font-size:.9rem;text-align:right}
+.mbtn{background:var(--gold);color:var(--bg);border:0;padding:9px;border-radius:8px;font-weight:700;width:100%;cursor:pointer;margin-bottom:7px}
+.mbtn.sec{background:#334155;color:#fff}
 </style>
 </head>
 <body>
@@ -36,8 +35,8 @@ body{background:var(--bg);color:var(--txt);min-height:100vh;display:flex;align-i
   <div class="panel">
     <div class="bal">الرصيد: <span id="bal">0</span> ل.س</div>
     <div class="btns">
-      <button class="bgold" onclick="pop('شحن شام كاش','لشحن رصيدك عبر شام كاش يرجى تحويل المبلغ وإرسال رقم العملية.')">+ شحن شام كاش</button>
-      <button class="bgold" onclick="withdraw()">سحب</button>
+      <button class="bgold" onclick="$('topup-md').classList.add('show')">+ شحن شام كاش</button>
+      <button class="bgold" onclick="$('wd-bal').textContent=b.toLocaleString();$('wd-md').classList.add('show')">سحب</button>
       <button class="bsnd" id="snd" onclick="togSnd()">🔇</button>
     </div>
   </div>
@@ -49,69 +48,49 @@ body{background:var(--bg);color:var(--txt);min-height:100vh;display:flex;align-i
   <div class="qbox" id="qt"></div>
   <div class="opts" id="op"></div>
 </div>
-<div class="mod" id="md">
-  <div class="mcard">
-    <h3 id="mt"></h3><p id="mb"></p>
-    <button class="mbtn" onclick="cls()">حسناً</button>
-  </div>
-</div>
+<div class="mod" id="md"><div class="mcard"><h3 id="mt"></h3><p id="mb"></p><button class="mbtn" onclick="cls()">حسناً</button></div></div>
+<div class="mod" id="topup-md"><div class="mcard">
+  <h3>شحن رصيد شام كاش</h3>
+  <p>انسخ العنوان وحوّل من 200 إلى 20,000 ل.س:</p>
+  <div class="addr" id="sc-addr">b6006c01248ed4b797809795e0055ba3</div>
+  <button class="mbtn sec" onclick="navigator.clipboard.writeText($('sc-addr').textContent);alert('تم النسخ!')">📋 نسخ عنوان شام كاش</button>
+  <input type="number" id="amt" class="inp" placeholder="المبلغ (200 - 20000 ل.س)">
+  <input type="text" id="txid" class="inp" placeholder="رقم عملية التحويل">
+  <button class="mbtn" onclick="sendTopupWA()">📲 إرسال الإشعار عبر واتساب</button>
+  <input type="text" id="vcode" class="inp" placeholder="أدخل كود الشحن المستلم">
+  <button class="mbtn sec" onclick="redeemCode()">تفعيل الكود</button>
+  <button class="mbtn sec" style="background:#ef444433;color:#f87171" onclick="$('topup-md').classList.remove('show')">إغلاق</button>
+</div></div>
+<div class="mod" id="wd-md"><div class="mcard">
+  <h3>سحب الرصيد</h3>
+  <p>رصيدك: <b style="color:var(--gold)" id="wd-bal">0</b> ل.س (الحد الأدنى 5,000)</p>
+  <input type="number" id="wd-amt" class="inp" placeholder="المبلغ المراد سحبه">
+  <input type="text" id="wd-addr" class="inp" placeholder="عنوان شام كاش الخاص بك">
+  <button class="mbtn" onclick="sendWdWA()">📲 طلب السحب عبر واتساب</button>
+  <button class="mbtn sec" onclick="$('wd-md').classList.remove('show')">إغلاق</button>
+</div></div>
 <script>
+const WA="+963994601625",CODES={GH200:200,GH500:500,GH1000:1000,GH2000:2000,GH5000:5000,GH10000:10000,GH20000:20000};
 const D=[
-[["ما هو اللقب الأشهر لمدينة غرانيج؟",["عروس الفرات","لؤلؤة الشام","بوابة البادية","جنة الشرق"],0],
-["على أي ضفة من نهر الفرات تقع غرانيج؟",["الضفة اليمنى","الضفة اليسرى (الجزيرة)","وسط النهر","تبعد عن النهر"],1],
-["كم تبعد غرانيج تقريباً شرق مدينة دير الزور؟",["30 كم","60 كم","90 كم","140 كم"],2],
-["أي بلدة تحد غرانيج من جهة الغرب؟",["البحرة","الكشكية","الميادين","السوسة"],1]],
-[["أي بلدة تحد غرانيج من جهة الشرق؟",["البحرة","هجين","أبو حمام","الشعفة"],0],
-["في أي عام أُحدثت بلدية غرانيج رسمياً؟",["1955","1968","1980","1991"],1],
-["ما ترتيب غرانيج من حيث المساحة في دير الزور؟",["الأولى","الثانية","الرابعة","السادسة"],2],
-["سبب تسمية غرانيج بهذا الاسم؟",["طائر الغرنوق","كانت مغمورة بمياه الفرات ثم جفت","اسم قائد","كثرة الآبار"],1]],
-[["ما هو المحصول الزراعي الرئيسي في غرانيج؟",["الزيتون","القطن والقمح","التفاح","التبغ"],1],
-["كم تبلغ مساحة أراضي غرانيج تقريباً؟",["50 كم²","95 كم²","144 كم²","250 كم²"],2],
-["إلى أي منطقة إدارية تتبع مدينة غرانيج؟",["منطقة البوكمال","منطقة الميادين","مركز دير الزور","التبني"],0],
-["ماذا يحد مدينة غرانيج من جهة الشمال؟",["نهر الفرات","البادية (الجزيرة)","العراق","نهر الخابور"],1]],
-[["متى فُصلت الكشكية وأبو حمام عن بلدية غرانيج؟",["1975","1985","1991","2000"],2],
-["ماذا يحد مدينة غرانيج من جهة الجنوب؟",["نهر الفرات","البادية","جبل البشري","طريق الحسكة"],0],
-["بماذا تشتهر سهول غرانيج الزراعية؟",["تربة رملية","خصوبتها العالية على ضفة النهر","زراعة بعلية","أشجار حراجية"],1],
-["النشاط الاقتصادي الثاني للسكان بعد الزراعة؟",["الصناعة الثقيلة","تربية المواشي والتجارة","السياحة","التعدين"],1]],
-[["ما هو اللقب الثاني الذي يُطلق على غرانيج؟",["قلعة الصحراء","مدينة النواعير","درة الفرات","واحة الشرق"],0],
-["تُعرف منطقة غرانيج وما حولها محلياً باسم:",["الشعيطات","البقارة","العكيدات","المشاهدة"],0],
-["تعتمد الزراعة في غرانيج بشكل أساسي على:",["مياه الأمطار","الري من نهر الفرات","الينابيع","تحلية المياه"],1],
-["ما هو المناخ السائد في مدينة غرانيج؟",["متوسطي معتدل","شبه صحراوي حار صيفاً","استوائي","بارد"],1]],
-[["كم عدد المراحل الكلي في لعبة اكتشف غرانيج؟",["5 مراحل","7 مراحل","10 مراحل","3 مراحل"],1],
-["أي من هذه المدن أقرب إلى غرانيج؟",["هجين","الرقة","تدمر","الحسكة"],0],
-["تشتهر المنطقة بتربية:",["الأغنام والأبقار","الخيول فقط","الغزلان","النعام"],0],
-["تقع غرانيج في الجزء:",["الشمالي الغربي من سوريا","الشرقي من سوريا","الجنوبي","الساحلي"],1]],
-[["تُعد غرانيج من أهم مراكز إنتاج:",["القمح والقطن والخضروات","الموز","البن والشاي","الفستق"],0],
-["يفصل نهر الفرات غرانيج عن بلدات:",["الضفة اليمنى (الشامية)","الحدود التركية","بادية الشام","دجلة"],0],
-["وسيلة الري المنتشرة في بساتين غرانيج:",["المضخات الزراعية وقنوات الري","السواقي","الأفلاج","الأمطار"],0],
-["تهانينا! السؤال الأخير، غرانيج هي:",["مدينة عريقة في ريف دير الزور الشرقي","قرية بحلب","بلدة بدمشق","مدينة ساحلية"],0]]
+[["لقب غرانيج الأشهر؟",["عروس الفرات","لؤلؤة الشام","بوابة البادية","جنة الشرق"],0],["تقع غرانيج على ضفة الفرات:",["اليمنى","اليسرى (الجزيرة)","وسط النهر","بعيدة"],1],["تبعد شرق دير الزور بحوالي:",["30 كم","60 كم","90 كم","140 كم"],2],["تحدها من الغرب بلدة:",["البحرة","الكشكية","الميادين","السوسة"],1]],
+[["تحدها من الشرق بلدة:",["البحرة","هجين","أبو حمام","الشعفة"],0],["أُحدثت بلدية غرانيج عام:",["1955","1968","1980","1991"],1],["ترتيبها مساحةً بدير الزور:",["الأولى","الثانية","الرابعة","السادسة"],2],["سبب تسميتها بغرانيج:",["طائر الغرنوق","كانت مغمورة بمياه الفرات وجفت","قائد قديم","كثرة الآبار"],1]],
+[["المحصول الرئيسي فيها:",["الزيتون","القطن والقمح","التفاح","التبغ"],1],["مساحة أراضيها تقريباً:",["50 كم²","95 كم²","144 كم²","250 كم²"],2],["تتبع إدارياً لمنطقة:",["البوكمال","الميادين","مركز دير الزور","التبني"],0],["يحدها من الشمال:",["نهر الفرات","البادية","العراق","الخابور"],1]],
+[["فُصلت الكشكية وأبو حمام عام:",["1975","1985","1991","2000"],2],["يحدها من الجنوب:",["نهر الفرات","البادية","جبل البشري","الحسكة"],0],["سهولها الزراعية تمتاز بـ:",["تربة رملية","خصوبة عالية لوقوعها على سرير النهر","زراعة بعلية","غابات"],1],["النشاط الاقتصادي الثاني:",["الصناعة","تربية المواشي والتجارة","السياحة","التعدين"],1]],
+[["اللقب الثاني لغرانيج:",["قلعة الصحراء","مدينة النواعير","درة الفرات","واحة الشرق"],0],["تُعرف منطقتها محلياً بـ:",["الشعيطات","البقارة","العكيدات","المشاهدة"],0],["تعتمد الزراعة فيها على:",["الأمطار","الري من الفرات","الينابيع","التحلية"],1],["مناخ مدينة غرانيج:",["متوسطي","شبه صحراوي حار صيفاً","استوائي","بارد"],1]],
+[["عدد مراحل اللعبة:",["5","7","10","3"],1],["أقرب مدينة لغرانيج:",["هجين","الرقة","تدمر","الحسكة"],0],["تشتهر بتربية:",["الأغنام والأبقار","الخيول فقط","الغزلان","النعام"],0],["تقع في الجزء:",["الشمالي الغربي","الشرقي من سوريا","الجنوبي","الساحلي"],1]],
+[["أهم مراكز إنتاج:",["القمح والقطن والخضروات","الموز","البن","الفستق"],0],["يفصلها الفرات عن:",["الضفة اليمنى (الشامية)","تركيا","بادية الشام","دجلة"],0],["وسيلة الري المنتشرة:",["المضخات وقنوات الري","السواقي","الأفلاج","الأمطار"],0],["غرانيج هي:",["مدينة عريقة بريف دير الزور الشرقي","قرية بحلب","بلدة بدمشق","مدينة ساحلية"],0]]
 ];
-let s=0,q=0,e=0,b=0,snd=0,lk=0,cb=null;
-const $=id=>document.getElementById(id);
-function load(){
-  lk=0;let item=D[s][q];
-  $('st').textContent=s+1;$('qn').textContent=q+1;$('er').textContent=e;$('bal').textContent=b.toLocaleString();
-  $('qt').textContent=item[0];$('op').innerHTML='';
-  item[1].forEach((t,i)=>{
-    let btn=document.createElement('button');btn.className='opt';btn.textContent=t;
-    btn.onclick=()=>ans(i,btn);$('op').appendChild(btn);
-  });
-}
-function ans(i,btn){
-  if(lk)return;lk=1;let c=D[s][q][2],bs=document.querySelectorAll('.opt');
-  if(i===c){btn.classList.add('ok');b+=500;$('bal').textContent=b.toLocaleString();setTimeout(nxt,800);}
-  else{btn.classList.add('no');bs[c].classList.add('ok');e++;$('er').textContent=e;
-    setTimeout(()=>{if(e>=2)pop('انتهت المحاولات','ارتكبت خطأين، ستُعاد المرحلة الحالية.',()=>{e=0;q=0;load()});else nxt();},1000);
-  }
-}
-function nxt(){
-  q++;if(q>=4){if(s+1<D.length)pop('أحسنت!','أتممت المرحلة '+(s+1)+' بنجاح.',()=>{s++;q=0;e=0;load()});
-  else pop('مبروك الفوز! 🏆','أنهيت جميع المراحل برصيد '+b.toLocaleString()+' ل.س.',()=>{s=0;q=0;e=0;load()});}else load();
-}
+let s=0,q=0,e=0,snd=0,lk=0,cb=null,b=parseInt(localStorage.getItem('gh_bal')||'0'),used=JSON.parse(localStorage.getItem('gh_used')||'[]');
+const $=id=>document.getElementById(id),saveBal=()=>{localStorage.setItem('gh_bal',b);$('bal').textContent=b.toLocaleString();};
+function load(){lk=0;let it=D[s][q];$('st').textContent=s+1;$('qn').textContent=q+1;$('er').textContent=e;saveBal();$('qt').textContent=it;$('op').innerHTML='';it.forEach((t,i)=>{let btn=document.createElement('button');btn.className='opt';btn.textContent=t;btn.onclick=()=>ans(i,btn);$('op').appendChild(btn);});}
+function ans(i,btn){if(lk)return;lk=1;let c=D[s][q],bs=document.querySelectorAll('.opt');if(i===c){btn.classList.add('ok');b+=500;saveBal();setTimeout(nxt,800);}else{btn.classList.add('no');bs[c].classList.add('ok');e++;$('er').textContent=e;setTimeout(()=>{if(e>=2)pop('انتهت المحاولات','ستُعاد المرحلة الحالية.',()=>{e=0;q=0;load()});else nxt();},1000);}}
+function nxt(){q++;if(q>=4){if(s+1<D.length)pop('أحسنت!','أتممت المرحلة '+(s+1),()=>{s++;q=0;e=0;load()});else pop('مبروك الفوز! 🏆','رصيدك '+b.toLocaleString()+' ل.س',()=>{s=0;q=0;e=0;load()});}else load();}
 function togSnd(){snd=!snd;$('snd').textContent=snd?'🔊':'🔇';$('snd').style.color=snd?'#22c55e':'#ef4444';}
-function withdraw(){pop('طلب سحب',b<5000?'رصيدك '+b.toLocaleString()+' ل.س، الحد الأدنى للسحب 5,000 ل.س.':'يمكنك الآن سحب '+b.toLocaleString()+' ل.س عبر شام كاش.');}
 function pop(t,m,f=null){$('mt').textContent=t;$('mb').textContent=m;cb=f;$('md').classList.add('show');}
 function cls(){$('md').classList.remove('show');if(cb){let f=cb;cb=null;f();}}
+function sendTopupWA(){let a=parseInt($('amt').value),tx=$('txid').value.trim();if(!a||a<200||a>20000)return alert('المبلغ بين 200 و 20,000 ل.س');if(!tx)return alert('أدخل رقم العملية');window.open(`https://wa.me{WA}?text=${encodeURIComponent(`شحن اكتشف غرانيج:\nالمبلغ: ${a} ل.س\nرقم العملية: ${tx}`)}`,'_blank');}
+function redeemCode(){let c=$('vcode').value.trim().toUpperCase();if(!CODES[c])return alert('كود غير صحيح');if(used.includes(c))return alert('مستخدم مسبقاً');b+=CODES[c];used.push(c);localStorage.setItem('gh_used',JSON.stringify(used));saveBal();$('vcode').value='';$('topup-md').classList.remove('show');pop('تم الشحن! 🎉',`أُضيف ${CODES[c].toLocaleString()} ل.س`);}
+function sendWdWA(){let a=parseInt($('wd-amt').value),ad=$('wd-addr').value.trim();if(b<5000||!a||a<5000||a>b||!ad)return alert('تأكد من الرصيد (الحد الأدنى 5,000) وعنوان شام كاش');b-=a;saveBal();$('wd-md').classList.remove('show');window.open(`https://wa.me{WA}?text=${encodeURIComponent(`سحب من اكتشف غرانيج:\nالمبلغ: ${a} ل.س\nعنوان شام كاش: ${ad}`)}`,'_blank');}
 load();
 </script>
 </body>
